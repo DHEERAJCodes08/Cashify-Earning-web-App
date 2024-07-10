@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promote Youtube Videos</title>
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/createadds.css">
+    <!-- This is for pop msg -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css/toastnotiffication.css">
+    <!-- This is for pop msg -->
+    <script src="./assets/js/createyoutube.js" defer></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #6200ea;
+            color: white;
+            padding: 20px 20px 20px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .navbar .icons i {
+            background-color: #fff;
+            color: #6200ea;
+            padding: 10px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .container {
+            margin-top: 40px;
+            max-width: 1400px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-evenly;
+            padding: 40px;
+            gap: 40px;
+        }
+
+        .container h1 {
+            margin-bottom: 20px;
+            font-size: 32px;
+            color: #333;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .amount {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-box {
+            flex: 1;
+            height: 100%;
+            width: 100%;
+        }
+
+        .image-box img {
+            width: 100%;
+            max-width: 850px;
+            height: 50 0px;
+            margin: 20px;
+            border-top-right-radius: 25px;
+            border-bottom-right-radius: 125px;
+        }
+
+        .file-uploader {
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 600px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .file-uploader .uploader-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .file-uploader .url-input-box {
+            text-align: center;
+            cursor: pointer;
+            border: 2px dashed #6200ea;
+            padding: 40px;
+            border-radius: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .file-uploader .url-input-box:hover {
+            background-color: #f1f1f1;
+        }
+
+        .file-uploader .url-input-box .box-title {
+            font-size: 18px;
+        }
+
+        .range-slider {
+            width: 100%;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .range-slider .range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .range-slider input[type="range"] {
+            width: 100%;
+        }
+
+        .range-slider .range-values {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .range-slider .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .range-slider .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 80px;
+            background-color: #6200ea;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -40px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .range-slider .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .submit-btn {
+            margin-top: 20px;
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .video-url-input {
+            text-align: center;
+            width: 100%;
+            line-height: 30px;
+            background-color: transparent;
+            border: 1px solid #fff;
+            outline: none !important;
+        }
+
+        .submit-btn:hover {
+            background-color: #7b1fa2;
+        }
+
+        .verify-btn,
+        .change-url-btn {
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .verify-btn:hover,
+        .change-url-btn {
+            background-color: #5b03d6;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .image-box img {
+                border-radius: 10px;
+                margin: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar .logo {
+                font-size: 20px;
+            }
+
+            .navbar .icons {
+                gap: 15px;
+                font-size: 20px;
+            }
+
+            .container h1 {
+                font-size: 24px;
+            }
+
+            .file-uploader {
+                padding: 15px;
+            }
+
+            .file-uploader .url-input-box {
+                padding: 30px;
+            }
+
+            .range-slider {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar .logo {
+                font-size: 18px;
+            }
+
+            .navbar .icons i {
+                font-size: 18px;
+            }
+
+            .container h1 {
+                font-size: 20px;
+            }
+
+            .file-uploader .url-input-box {
+                padding: 20px;
+            }
+
+            .submit-btn {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
+
+        .progress-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 150px;
+            max-width: 800px;
+            width: 90%;
+            padding: 0 10px;
+        }
+
+        .progress {
+            counter-reset: step;
+            width: 100%;
+        }
+
+        .progress li {
+            list-style-type: none;
+            width: 20%;
+            float: left;
+            position: relative;
+            text-align: center;
+            color: #b7b7b7;
+            font-weight: 500;
+        }
+
+        .progress li:before {
+            counter-increment: step;
+            content: counter(step);
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            display: block;
+            font-size: 18px;
+            color: #fff;
+            background: #b7b7b7;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            z-index: 1;
+            position: relative;
+        }
+
+        .progress li:after {
+            content: '';
+            width: 100%;
+            height: 5px;
+            background: #b7b7b7;
+            position: absolute;
+            left: -50%;
+            top: 15px;
+            z-index: 0;
+        }
+
+        .progress li:first-child:after {
+            content: none;
+        }
+
+        .progress li.active {
+            color: #6200ea;
+        }
+
+        .progress li.active:before {
+            background: #6200ea;
+        }
+
+        .progress li.active+li:after {
+            background: #6200ea;
+        }
+
+        .progress-icons {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .progress-container {
+                flex-direction: column;
+            }
+
+            .progress {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .progress li {
+                width: auto;
+                font-size: 0.5rem;
+                flex: 1;
+            }
+
+            .progress-icons {
+                display: none;
+                justify-content: space-between;
+                width: 100%;
+                padding: 10px 0;
+            }
+
+            .progress-icons i {
+                font-size: 24px;
+                color: #6200ea;
+            }
+        }
+    </style>
+    <script src="https://unpkg.com/ionicons@5.5.2/dist/ionicons.js"></script>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo">Cashify🚀<span>
+                <h6 style="color: aqua;">start promoting with Cashify</h6>
+            </span></div>
+        <div class="icons">
+            <i class='bx bx-user'></i>
+        </div>
+    </div>
+    <div class="progress-container">
+        <ul class="progress">
+            <li class="active">Upload Url</li>
+            <li class="active">Select Budget</li>
+            <li class="active">Payment Method</li>
+            <li class="active">Checkout</li>
+            <li class="active">Success</li>
+        </ul>
+        <div class="progress-icons">
+            <i class='bx bxs-cloud-upload'></i>
+            <i class='bx bxs-dollar-circle'></i>
+            <i class='bx bxs-credit-card'></i>
+            <i class='bx bx-cart'></i>
+            <i class='bx bxs-check-circle'></i>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="image-box">
+            <img src="./assets/images/createtask3.jpg" alt="Promote Image">
+        </div>
+        <div class="file-uploader">
+            <div class="uploader-header">
+                <h2 class="uploader-title">Enter YouTube Video URL...</h2>
+                <h4 class="file-completed-status"></h4>
+            </div>
+            <!-- URL input element -->
+            <div class="notifications"></div>
+            <div class="url-input-box">
+                <input type="text" class="video-url-input" placeholder="Paste your YouTube video URL here">
+            </div>
+            <div class="range-slider">
+                <div class="range-labels">
+                    <span>Adjust your Budget</span>
+                </div>
+                <input type="range" min="0" max="3" step="1" value="0" id="budget-range" required>
+                <div class="range-values">
+                    <div class="tooltip">
+                        <span class="tooltip-text">0 views</span>
+                        <div class="amount">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
+                                fill="#green">
+                                <path
+                                    d="M549-120 280-400v-80h140q53 0 91.5-34.5T558-600H240v-80h306q-17-35-50.5-57.5T420-760H240v-80h480v80H590q14 17 25 37t17 43h88v80h-81q-8 85-70 142.5T420-400h-29l269 280H549Z" />
+                            </svg>
+                            0
+                        </div>
+                    </div>
+                    <div class="tooltip">
+                        <span class="tooltip-text">300 views</span>
+                        <div class="amount">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
+                                fill="#green">
+                                <path
+                                    d="M549-120 280-400v-80h140q53 0 91.5-34.5T558-600H240v-80h306q-17-35-50.5-57.5T420-760H240v-80h480v80H590q14 17 25 37t17 43h88v80h-81q-8 85-70 142.5T420-400h-29l269 280H549Z" />
+                            </svg>
+                            300
+                        </div>
+                    </div>
+                    <div class="tooltip">
+                        <span class="tooltip-text">700 views</span>
+                        <div class="amount">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
+                                fill="#green">
+                                <path
+                                    d="M549-120 280-400v-80h140q53 0 91.5-34.5T558-600H240v-80h306q-17-35-50.5-57.5T420-760H240v-80h480v80H590q14 17 25 37t17 43h88v80h-81q-8 85-70 142.5T420-400h-29l269 280H549Z" />
+                            </svg>
+                            700
+                        </div>
+                    </div>
+                    <div class="tooltip">
+                        <span class="tooltip-text">1000 views</span>
+                        <div class="amount">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
+                                fill="#green">
+                                <path
+                                    d="M549-120 280-400v-80h140q53 0 91.5-34.5T558-600H240v-80h306q-17-35-50.5-57.5T420-760H240v-80h480v80H590q14 17 25 37t17 43h88v80h-81q-8 85-70 142.5T420-400h-29l269 280H549Z" />
+                            </svg>
+                            1000
+                        </div>
+                    </div>
+                </div>
+                <div class="budget-details-container">
+                    <!-- Budget details will be appended here -->
+                </div>
+                <button class="submit-btn">Submit</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
+</html>

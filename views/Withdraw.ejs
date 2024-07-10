@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw Page</title>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+        body {
+            font-family: "Ubuntu", sans-serif;
+            font-weight: 500;
+            font-style: normal;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+
+        .icon {
+            color: #fff;
+            
+        
+        }
+        .icon i{
+            font-size: 30px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgb(19, 19, 19);
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar img {
+            height: 40px;
+        }
+
+        .navbar .icon {
+            color: #fff;
+            font-size: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: row;
+                padding-bottom: 5px;
+            }
+
+            .navbar img {
+                margin-bottom: 10px;
+            }
+
+            .icon {
+                margin-right: 20px;
+            }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 60px 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .balance {
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <img src="/assets/logo/logo.png" alt="Logo">
+        <div class="icon"><i class='bx bx-history bx-tada'></i></div>
+    </div>
+    <div class="container">
+        <h2>Withdraw Page</h2>
+        <div class="form-group">
+            <label for="accountHolderName">Account Holder Name</label>
+            <input type="text" id="accountHolderName" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phoneNumber">Phone Number</label>
+            <input type="text" id="phoneNumber" required>
+        </div>
+        <div class="form-group">
+            <label for="withdrawAmount">Withdraw Amount</label>
+            <input type="number" id="withdrawAmount" required>
+        </div>
+        <div class="form-group">
+            <label for="bankCard">Bank Card</label>
+            <select id="bankCard" required>
+                <option value="" disabled selected>Select Bankcard</option>
+                <% fetchbankCards.forEach(function(bankCard) { %>
+                    <option value="<%= bankCard.userbank_bankname %>">
+                        <%= bankCard.userbank_bankname %>
+                    </option>
+                    <% }); %>
+            </select>
+        </div>
+
+        <div class="balance">
+            Current Balance: ₹<span id="currentBalance">
+                <%= balance.length> 0 ? balance[0].user_balance : 0 %>
+            </span>
+        </div>
+        <button class="btn" type="button" onclick="withdrawAmount()">Withdraw</button>
+    </div>
+
+    <script>
+        function withdrawAmount() {
+            const currentBalanceElement = document.getElementById('currentBalance');
+            const withdrawAmount = parseFloat(document.getElementById('withdrawAmount').value);
+            const bankCard = document.getElementById('bankCard').value;
+            const accountHolderName = document.getElementById('accountHolderName').value;
+            const currentBalance = parseFloat(currentBalanceElement.innerText);
+
+            if (withdrawAmount > 0 && withdrawAmount <= currentBalance) {
+                if (!accountHolderName) {
+                    alert('Please enter Accountholder Name');
+                    return;
+                }
+                if (!bankCard) {
+                    alert('Please select a bank card');
+                    return;
+                }
+
+                const newBalance = currentBalance - withdrawAmount;
+                currentBalanceElement.innerText = newBalance.toFixed(2);
+
+                fetch('/updateBalance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        newBalance: newBalance,
+                        withdrawAmount: withdrawAmount,
+                        bankCard: bankCard,
+                        accountHolderName: accountHolderName
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Balance updated successfully');
+                            window.location.href = '/dashboard';
+                        } else {
+                            alert('Error updating balance');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error in fetching the route');
+                    });
+            } else {
+                alert('Invalid withdraw amount');
+            }
+        }
+    </script>
+</body>
+
+</html>

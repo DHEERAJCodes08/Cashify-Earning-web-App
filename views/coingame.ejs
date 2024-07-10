@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/coingame.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <title>Flip coin | Cashify</title>
+</head>
+
+<body>
+
+
+    <div class="container">
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <div class="logo">
+                    <div class="logo_text">
+                        <h2 class="maintext">Cashify</h2>
+                        <p class="subtext">Play Earn🌟</p>
+                    </div>
+                </div>
+                <div class="balance">
+                    <i class='bx bxs-wallet'></i>
+                    <span class="text">Balance:</span><span class="Bvalue">
+                        <%=balance[0].user_balance %>
+                    </span>
+                </div>
+                <div class="top-bar-icons">
+                    <a href=""><i class='bx bx-credit-card'></i></a>
+                    <div class="profile-dropdown">
+                        <i class='bx bxs-user-circle'></i>
+                        <div class="dropdown-content">
+                            <a href="/dashboard">Profile</a>
+                            <a href="/withdraw">Withdraw</a>
+                            <a href="#">Support</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidenav">
+            <br>
+            <br>
+
+            <div class="search_bar">
+                <form action="#">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Search...">
+                </form>
+            </div>
+
+            <div class="icon_items">
+                <ul>
+                    <li class="navActive">
+                        <i class='bx bxs-dashboard'></i>
+                        <a href="/dashboard">Dashboard</a>
+                    </li>
+
+                    <li class="navActive">
+                        <i class='bx bxs-hot'></i>
+                        <a href="/earn">Trending</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bxs-bar-chart-alt-2'></i>
+                        <a href="#">Activity</a>
+                    </li>
+                    <!--                     <li class="navActive">
+                        <i class='bx bxs-shopping-bag'></i>
+                        <a href="#">Products</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bxs-bell'></i>
+                        <a href="#">Notification</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bxs-group'></i>
+                        <a href="#">Group</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bxs-user-rectangle'></i>
+                        <a href="#">Portfolio</a>
+                    </li> -->
+                    <li class="navActive">
+                        <i class='bx bxs-user-circle'></i>
+                        <a href="#">Profile</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bxs-cog'></i>
+                        <a href="#">Setting</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bx-log-in'></i>
+                        <a href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main content area -->
+        <div class="main-content">
+
+
+            <!--             <div class="heading">
+                <h2> &nbsp; &nbsp; &nbsp; &nbsp;<span id="first"> Flip</span> &nbsp; <span id="second">Coin</span> </h2>
+                <ion-icon size="large" name="wallet"></ion-icon>
+            </div> -->
+            <div class="container1">
+                <div class="stats">
+                    <p id="ResultValue">Result:<span class="Rvalue"></span></p>
+                </div>
+                <div class="coin" id="coin">
+                    <div class="heads">
+                        <img src="./assets/gameimg/heads.svg">
+                    </div>
+                    <div class="tails">
+                        <img src="./assets/gameimg/tails.svg">
+                    </div>
+                </div>
+
+                <div class="currentBet">
+                    <span class="bet"></span>
+
+                </div>
+                <div class="buttons">
+                    <button id="flip-button">Flip Coin</button>
+                    <button id="bet-button">Bet Size</button>
+                </div>
+            </div>
+
+            <div id="popup" class="popup ">
+                <div class="popup-content">
+                    <span class="close-btn" id="close-popup">&times;</span>
+                    <h2>Set Your Bet</h2>
+                    <br>
+                    <div class="selectBet">
+                        <input type="radio" name="betOption" value="Heads" id="heads-option">
+                        <label for="heads-option" class="betLabel">
+                            Heads
+                        </label>
+                        <input type="radio" name="betOption" value="Tails" id="tails-option">
+                        <label for="tails-option" class="betLabel">
+                            Tails
+                        </label>
+                    </div>
+
+                    <div class="bet-controls">
+                        <button id="decrease-bet">-</button>
+                        <span id="bet-amount">5</span>
+                        <button id="increase-bet">+</button>
+                    </div>
+                    <button id="submit-bet">Submit</button>
+                </div>
+            </div>
+
+            <div id="message" class="message">
+                <div class="popup-content">
+                    <span style="color: rgb(0, 182, 0);" class="material-icons popup-icon"></span>
+                    <img src="./assets/gameimg/won2.png" width="70" alt="This is Won">
+                    <button onclick="SuccessmessagePopup()">OK</button>
+                </div>
+            </div>
+            <div id="Fmessage" class="Fmessage">
+                <div class="popup-content">
+                    <span style="color: red;" class="material-icons popup-icon"></span>
+                    <img src="./assets/gameimg/lose.png" width="70" alt="This is Lose">
+                    <button onclick="FailmessagePopup()">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Bottom navigation bar for mobile -->
+    <div class="bottom-nav">
+        <ul>
+            <li class="navActive">
+                <a class="sendlink" id="active" href="/dashboard">
+                    <i class='bx bxs-dashboard' id="active"></i>
+                    Dashboard
+                </a>
+            </li>
+
+            <li class="navActive">
+                <a class="sendlink" href="/dashboard">
+                    <i class='bx bxs-hot'></i>
+                    Trending
+                </a>
+            </li>
+            <li class="navActive">
+                <a class="sendlink" href="/dashboard">
+                    <i class='bx bxs-bar-chart-alt-2'></i>
+                    Activity
+                </a>
+            </li>
+            <li class="navActive">
+                <a class="sendlink" href="/dashboard">
+                    <i class='bx bxs-user-circle'></i>
+                    Profile
+                </a>
+            </li>
+            <!--<li class="navActive">
+                <i class='bx bxs-cog'></i>
+                <span>Setting</span>
+            </li> -->
+        </ul>
+    </div>
+
+
+
+    <script src="./assets/js/coingame.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+
+
+</html>

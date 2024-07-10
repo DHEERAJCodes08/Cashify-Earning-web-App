@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Promote | Cashify</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+</head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        width: 100%;
+        max-height: 100vh;
+        background-color: #232020;
+        color: #f4f4f4;
+    }
+
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #6200ea;
+        color: white;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    .navbar .logo {
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    .navbar .icons i {
+        background-color: #fff;
+        color: #6200ea;
+        padding: 10px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .container {
+        padding-top: 130px;
+    }
+
+    .record-card {
+        background-color: #333;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        color: #f4f4f4;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .icons {
+        color: blueviolet;
+    }
+
+    .record-card h5 {
+        margin-bottom: 10px;
+    }
+
+    .record-card .status {
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffa500; 
+    }
+
+    @media (max-width: 576px) {
+        .record-card {
+            padding: 15px;
+        }
+
+        .record-card h5 {
+            font-size: 18px;
+        }
+
+        .record-card .status {
+            font-size: 16px;
+        }
+    }
+</style>
+
+<body>
+
+    <div class="navbar">
+        <div class="logo">Cashify🚀
+            <h6 style="color: aqua;">Start promoting with Cashify</h6>
+        </div>
+        <div aria-label="Protected" class="icons">
+            <i class='bx bxs-check-shield bx-tada'></i>
+        </div>
+    </div>
+
+
+
+    <div class="container">
+        <h2 class="my-4">Your Promotions &nbsp;<img src="./assets/logo/star.png" width="20"
+            alt=""></h2>
+        <% if (userpromotehistory.length===0) { %>
+            <div class="alert alert-info" role="alert">
+                No promotion history found.
+            </div>
+            <% } else { %>
+                <div class="row">
+
+                    <% userpromotehistory.forEach(function(record) { %>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="record-card d-flex justify-content-between align-items-center">
+                                <h5 class="flex-grow-1">
+                                    <%= record.paymenttype %>
+                                </h5>
+                                <p style="font-size: 1.2em; margin-right: 20px;">
+                                    <%= record.amount %>/-
+                                </p>
+                                <p class="status">
+                                    <%= record.status %>
+                                </p>
+                            </div>
+                        </div>  
+                        <% }); %>
+                </div>
+                <% } %>
+    </div>
+
+
+    <script>
+        document.querySelectorAll('.status').forEach(function (statusElement) {
+            var statusText = statusElement.textContent.trim();
+            if (statusText === 'Declined') {
+                statusElement.style.color = 'red';
+            } else if (statusText === 'Pending') {
+                statusElement.style.color = 'orange';
+            } else if (statusText === 'Approved') {
+                statusElement.style.color = 'lightgreen';
+            }
+        });
+    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+        integrity="sha384-eMNCOJQ4GOCpqqJvC19S5L+PfNOUexLxZsBF5UvYjIDPpFZW0Z9U6dI3PijNI5D5"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGpptt1TdP2mNV6H0eK4f9HOL5loPb5p5ksQh6D55V9OXKxF0KSsP2VVvG"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

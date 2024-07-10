@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- CSS Link -->
+    <link rel="stylesheet" href="./assets/css/adminpannel.css">
+    <!-- Icon Links -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <div class="logo">
+                    <div class="logo_text">
+                        <h2>Cashify</h2>
+                        <p>Play Earn🌟</p>
+                    </div>
+                </div>
+                <div class="top-bar-icons">
+                    <a href=""><i class='bx bx-credit-card'></i></a>
+                    <div class="profile-dropdown">
+                        <i class='bx bxs-user-circle'></i>
+                        <div class="dropdown-content">
+                            <a href="/dashboard">Profile</a>
+                            <a href="/withdraw">Withdraw</a>
+                            <a href="#">Support</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidenav">
+            <br>
+            <br>
+
+            <div class="search_bar">
+                <form action="#">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Search...">
+                </form>
+            </div>
+
+            <div class="icon_items">
+                <ul>
+                    <li class="navActive ">
+                        <i class='bx bxs-dashboard'></i>
+                        <a class="links" href="/admin">Dashboard</a>
+                    </li>
+
+                    <li class="navActive active" >
+                        <i class='bx bx-money-withdraw'></i>
+                        <a class="links" href="/adminwithdraw">Withdrawl</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bxs-bar-chart-alt-2'></i>
+                        <a class="links" href="/adminpromotepaynment">PPaynment</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bxs-shopping-bag'></i>
+                        <a class="links" href="#">Products</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bxs-bell'></i>
+                        <a class="links" href="#">Notification</a>
+                    </li> 
+                    <li class="navActive">
+                        <i class='bx bxs-group'></i>
+                        <a class="links" href="#">Group</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bxs-user-rectangle'></i>
+                        <a class="links" href="#">Portfolio</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bxs-user-circle'></i>
+                        <a class="links" href="#">Profile</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bxs-cog'></i>
+                        <a class="links" href="#">Setting</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bx-log-in'></i>
+                        <a class="links" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main content area -->
+        <div class="main-content">
+            <% if (records.length === 0) { %>
+                <div class="record-card">
+                    <p  >No Withdraw Request .</p>
+                </div>
+                
+            <% } else { %>
+                <% records.forEach(record => { %>
+                    <div class="record-card">
+                        <div class="record-details">
+                            <h3>Ac Name: <%= record.order_accountholder %></h3>
+                            <p>Order Type: <span><%= record.order_name %></span></p>
+                            <p>Order Value: <span><%= record.order_value %></span></p>
+                            <div class="other-details" style="display: none;">
+                                <p>Order id: <span class="order_id"><%= record.order_id %></span></p>
+                                <p>User id: <span class="user_id"><%= record.user_id %></span></p>
+                                <p>Bankcard: <span class="bankcard"><%= record.order_bankcard %></span></p>
+                            </div>
+                        </div>
+                        <div class="record-actions">
+                            <div class="btn"><i class='bx bx-show' onclick="showDetails(this)"></i></div>
+                            <div class="btn"><i class='bx bx-check-circle' onclick="updateStatus(this, 'Approved')"></i></div>
+                            <div class="btn"><i class='bx bx-x-circle' onclick="updateStatus(this, 'Declined')"></i></div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } %>
+            <!-- Add more records here -->
+        </div>
+
+
+    </div>
+
+    <!-- Bottom navigation bar for mobile -->
+    <div class="bottom-nav">
+        <ul>
+            <li class="navActive">
+                <a class="sendlink" id="active" href="/dashboard">
+                    <i class='bx bxs-dashboard' id="active"></i>
+                    Dashboard
+                </a>
+            </li>
+
+            <li class="navActive">
+                <a class="sendlink" href="/dashboard">
+                    <i class='bx bxs-hot'></i>
+                    Trending
+                </a>
+            </li>
+            <li class="navActive">
+                <a class="sendlink" href="/dashboard">
+                    <i class='bx bxs-bar-chart-alt-2'></i>
+                    Activity
+                </a>
+            </li>
+            <li class="navActive">
+                <a class="sendlink" href="/dashboard">
+                    <i class='bx bxs-user-circle'></i>
+                    Profile
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <script src="./assets/js/adminwithdrawrequest.js"></script>
+</body>
+
+</html>

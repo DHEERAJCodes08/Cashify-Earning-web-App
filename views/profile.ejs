@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/dashboard.css">
+    <title> Dashboard| Cashify💸</title>
+    <style>
+        main {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+
+        .profileform input {
+            background-color: #f9f9f9;
+        }
+
+        .submit-btn {
+            background-color: #4CAF50;
+            /* Green */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover effect for the submit button */
+        .submit-btn:hover {
+            background-color: #45a049;
+            /* Darker green */
+        }
+
+        .profile-container {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+            margin: auto;
+        }
+
+        .profile-header {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 20px 0;
+            position: relative;
+            padding: 50px;
+        }
+
+        .profile-header h1 {
+            margin: 0;
+        }
+
+        .profile-image {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 5px solid white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: contain;
+            background: url('https://via.placeholder.com/120') center center/cover;
+        }
+
+        .edit-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-info {
+            padding: 60px 20px 20px;
+        }
+
+        .profile-info div {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .profile-info div label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .profile-info div span {
+            display: block;
+            color: #666;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .save-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background-color: #45a049;
+        }
+
+
+        .profile-info {
+           color: #181a1e;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar Section -->
+        <aside>
+            <div class="toggle">
+                <div class="logo">
+                    <img src="./assets/logo/cashify.jpg" width="50" height="50" style="border-radius: 50%;">
+                    <a href="/">
+                        <h2>Cashify<span class="success">Earn</span></h2>
+                    </a>
+                </div>
+                <div class="close" id="close-btn">
+                    <span class="material-icons-sharp">
+                        close
+                    </span>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <a href="/dashboard">
+                    <span class="material-icons-sharp">
+                        dashboard
+                    </span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="#" class="active">
+                    <span class="material-icons-sharp">
+                        person_outline
+                    </span>
+                    <h3>Profile</h3>
+                </a>
+                <a href="/withdraw">
+                    <span class="material-icons-sharp">
+                        receipt_long
+                    </span>
+                    <h3>Withdraw</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">
+                        inventory
+                    </span>
+                    <h3>Task List</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">
+                        settings
+                    </span>
+                    <h3>Settings</h3>
+                </a>
+                <a href="/bankcards">
+                    <span class="material-icons-sharp">
+                        add
+                    </span>
+                    <h3> Bankcard</h3>
+                </a>
+                <a href="logout">
+                    <span class="material-icons-sharp">
+                        logout
+                    </span>
+                    <h3>Logout</h3>
+                </a>
+            </div>
+        </aside>
+        <!-- End of Sidebar Section -->
+
+        <main>
+            <h1>Profile</h1>
+            <!-- Profile Container -->
+
+            <% if (profileInfo && profileInfo.length> 0) { %>
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <h1>Cashify</h1>
+                        <img src="/assets/dashimages/profile-1.jpg" class="profile-image">
+                        <button class="edit-btn"><ion-icon name="create"></ion-icon></button>
+                    </div>
+                    <div class="profile-info">
+                        <div>
+                            <label for="name">Name</label>
+                            <span id="name">
+                                <%= profileInfo[0].user_name || '****' %>
+                            </span>
+                        </div>
+                        <div>
+                            <label for="email">Email</label>
+                            <span id="email">
+                                <%= profileInfo[0].user_email || '****' %>
+                            </span>
+                        </div>
+                        <div>
+                            <label for="phone">Phone No</label>
+                            <span id="phone">
+                                <%= profileInfo[0].user_phone || '****' %>
+                            </span>
+                        </div>
+                        <div>
+                            <label for="gender">Gender</label>
+                            <span id="gender">
+                                <%= profileInfo[0].user_gender || '****' %>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <% } else { %>
+                    <div class="profile-info">
+                        <h1>Enter Profile Information</h1>
+                        <form class="profileform" action="/profile" method="post">
+                            <div>
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div>
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div>
+                                <label for="phone">Phone No</label>
+                                <input type="text" id="phone" name="phone" required>
+                            </div>
+                            <div>
+                                <label for="gender">Gender</label>
+                                <select id="gender" name="gender" required>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="submit-btn">Submit</button>
+                        </form>
+                    </div>
+                    <% } %>
+                        <!-- End of Profile Container -->
+
+                        <!-- Edit Profile Modal -->
+                        <div id="editModal" class="modal">
+                            <div class="modal-content">
+                                <span class="close-btn">&times;</span>
+                                <h2>Edit Profile</h2>
+                                <div class="form-group">
+                                    <label for="editName">Name</label>
+                                    <input type="text" id="editName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editEmail">Email</label>
+                                    <input type="email" id="editEmail">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editPhone">Phone No</label>
+                                    <input type="text" id="editPhone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="editGender">Gender</label>
+                                    <input type="text" id="editGender">
+                                </div>
+                                <button class="save-btn">Save</button>
+                            </div>
+                        </div>
+                        <!-- End of Edit Profile Modal -->
+        </main>
+        <!-- End of Main Content -->
+
+        <!-- Right Section -->
+        <div class="right-section">
+            <div class="nav">
+                <button id="menu-btn">
+                    <span class="material-icons-sharp">
+                        menu
+                    </span>
+                </button>
+                <div class="dark-mode">
+                    <span class="material-icons-sharp active">
+                        light_mode
+                    </span>
+                    <span class="material-icons-sharp">
+                        dark_mode
+                    </span>
+                </div>
+            </div>
+            <!-- End of Nav -->
+
+            <div class="user-profile">
+                <div class="logo">
+                    <img draggable="false" src="./assets/logo/cashify.jpg">
+                    <h2>Cashify Earn</h2>
+                    <p>Share More Earn More💸</p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script src="/assets/js/dashboard.js"></script>
+    <!-- This is for icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+
+
+
+        // Get the modal
+        var modal = document.getElementById("editModal");
+
+        // Get the button that opens the modal
+        var btn = document.querySelector(".edit-btn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close-btn")[0];
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Save button functionality
+        var saveBtn = document.querySelector(".save-btn");
+        saveBtn.onclick = async function () {
+            var name = document.getElementById("editName").value;
+            var email = document.getElementById("editEmail").value;
+            var phone = document.getElementById("editPhone").value;
+            var gender = document.getElementById("editGender").value;
+
+
+            // Prepare the data to be sent to the server
+            var profileData = {
+                name: name,
+                email: email,
+                phone: phone,
+                gender: gender
+            };
+
+            try {
+                // Send the data to the server
+                var response = await fetch('/update-profile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(profileData)
+                });
+
+                // Check if the request was successful
+                if (response.ok) {
+                    alert('Profile updated successfully');
+                    window.location.reload();
+                } else {
+                    alert('Failed to update profile');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while updating the profile');
+            }
+
+            // Close the modal
+            modal.style.display = "none";
+        }
+    </script>
+</body>
+
+</html>

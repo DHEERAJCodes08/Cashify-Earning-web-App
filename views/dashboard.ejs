@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/dashboard.css">
+    <title>Dashboard | Cashify💸</title>
+</head>
+<style>
+    .bonus {
+        position: fixed;
+        top: 75%;
+        right: 3%;
+        z-index: 100;
+    }
+
+    .bonus-img {
+        filter: drop-shadow(1px 2px 2px rgb(28, 27, 27));
+        width: 45px;
+        height: 45px;
+        animation: popping 3s infinite ease;
+
+    }
+
+    @keyframes popping {
+
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.2);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+
+
+    }
+
+    .popup {
+        z-index: 1000;
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .popup-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        position: relative;
+        width: 300px;
+        /* Adjust as needed */
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    h2 {
+        margin: 0 0 10px 0;
+    }
+
+    h4 {
+        margin: 0 0 20px 0;
+    }
+
+    .referral-input {
+        width: 80%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    .submit-btn {
+        padding: 10px 20px;
+        background-color: #6338ef;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .submit-btn:hover {
+        background-color: #451ec5;
+    }
+
+    /* Styles for new success popup */
+    .success-popup {
+        z-index: 1000;
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .success-popup-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        position: relative;
+        width: 300px;
+    }
+
+    .success-close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 20px;
+    }
+</style>
+
+
+
+<body>
+
+    <div class="bonus" data-completedbonus="<%= completedbonus %>">
+        <img class="bonus-img" src="./assets/logo/bonus.png" alt="">
+    </div>
+
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close-btn">&times;</span>
+            <h2>Bonus</h2>
+            <h4>Add Referral code of your Invitee and get instant 20 rupees</h4>
+            <form id="referral-form">
+                <input type="text" placeholder="Insert Referral Code" class="referral-input">
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- New Success Message Popup -->
+    <div id="successPopup" class="success-popup">
+        <div class="success-popup-content">
+            <span class="success-close-btn">&times;</span>
+            <p id="successMessage"></p>
+        </div>
+    </div>
+
+
+
+    <div class="container">
+        <!-- Sidebar Section -->
+        <aside>
+            <div class="toggle">
+                <div class="logo">
+                    <img src="./assets/logo/cashify.jpg" width="50" height="50" style="border-radius: 50%;">
+                    <a href="/">
+                        <h2>Cashify<span class="success">Earn</span></h2>
+                    </a>
+                </div>
+                <div class="close" id="close-btn">
+                    <span class="material-icons-sharp">
+                        close
+                    </span>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <a href="#" class="active">
+                    <span class="material-icons-sharp">
+                        dashboard
+                    </span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="/profile">
+                    <span class="material-icons-sharp">
+                        person_outline
+                    </span>
+                    <h3>Profile</h3>
+                </a>
+                <a href="/selectearn">
+                    <span class="material-icons-sharp">
+                        insights
+                    </span>
+                    <h3>Earn</h3>
+                </a>
+                <a href="/withdraw">
+                    <span class="material-icons-sharp">
+                        receipt_long
+                    </span>
+                    <h3>Withdraw</h3>
+                </a>
+                <a href="/selectpromote">
+                    <span class="material-icons-sharp">
+                        rocket_launch
+                    </span>
+                    <h3>Prometes</h3>
+                </a>
+                <a href="/bankcards">
+                    <span class="material-icons-sharp">
+                        add
+                    </span>
+                    <h3>Bankcard</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">
+                        settings
+                    </span>
+                    <h3>Settings</h3>
+                </a>
+                <a href="logout">
+                    <span class="material-icons-sharp">
+                        logout
+                    </span>
+                    <h3>Logout</h3>
+                </a>
+            </div>
+        </aside>
+        <!-- End of Sidebar Section -->
+
+        <!-- Main Content -->
+        <main>
+            <h1>Dashboard</h1>
+            <!-- Dashboard -->
+            <div class="analyse">
+                <div class="sales">
+                    <div class="status">
+                        <div class="info">
+                            <h3>Total Earnings</h3>
+                            <h1> <ion-icon style="color: rgb(255, 0, 0);" size="small" name="rocket"></ion-icon>
+                                <%= earnings.length> 0 ? earnings[0].user_balance : 0 %>
+                            </h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p>+81%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="visits">
+                    <div class="status">
+                        <div class="info">
+                            <h3>Task Completed</h3>
+                            <h1><ion-icon style="color: rgb(7, 182, 13);" size="small"
+                                    name="checkmark-done-circle"></ion-icon>
+                                <%= earnings.length> 0 ? earnings[0].user_taskcompleted : 0 %>
+                            </h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p>-48%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="searches">
+                    <div class="status">
+                        <div class="info">
+                            <h3>Withdraw</h3>
+                            <h1><span><ion-icon style="color: rgb(0, 179, 255);" size="small"
+                                        name="wallet"></ion-icon></span>
+                                <%= earnings.length> 0 ? earnings[0].user_withdrawalcompleted : 0 %>
+                            </h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p>+21%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Dashboard -->
+
+            <!-- New Users Section -->
+            <div class="new-users">
+                <h2>Your Team</h2>
+                <div class="user-list">
+                    <% if (message) { %>
+                        <p>
+                            <%= message %>
+                        </p>
+                        <% } else { %>
+                            <% referrals.forEach(referral=> { %>
+                                <div class="user">
+                                    <img src="<%= referral.image %>" width="35" alt="<%= referral.name %>">
+                                    <h5>
+                                        <%= referral.name %>
+                                    </h5>
+                                </div>
+                                <% }) %>
+                                    <% } %>
+                </div>
+            </div>
+            <!-- End of New Users Section -->
+
+            <!-- Recent Orders Table -->
+            <div class="recent-orders">
+                <h2>Recent Withdraw</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Amount</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% Withdraworder.forEach(order=> { %>
+                            <tr>
+                                <td>
+                                    <%= order.order_id %>
+                                </td>
+                                <td>
+                                    <%= order.order_value %>
+                                </td>
+                                <td>
+                                    <%= order.order_name %>
+                                </td>
+                                <td
+                                    class="<%= order.order_status === 'Declined' ? 'danger' : order.order_status === 'Pending' ? 'warning' : 'success' %>">
+                                    <%= order.order_status %>
+                                </td>
+                                <td class="primary">Details</td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+
+                </table>
+                <a href="#">Show All</a>
+            </div>
+            <!-- End of Recent Orders -->
+
+        </main>
+        <!-- End of Main Content -->
+
+        <!-- Right Section -->
+        <div class="right-section">
+            <div class="nav">
+                <button id="menu-btn">
+                    <span class="material-icons-sharp">
+                        menu
+                    </span>
+                </button>
+                <div class="dark-mode">
+                    <span class="material-icons-sharp active">
+                        light_mode
+                    </span>
+                    <span class="material-icons-sharp">
+                        dark_mode
+                    </span>
+                </div>
+
+                <div class="profile">
+                    <div class="info">
+                        <% if (userinfo && userinfo.length> 0) { %>
+                            <p>Hey, <b>
+                                    <%= userinfo[0].user_name %>
+                                </b></p>
+                            <% } else { %>
+                                <p>Hey, <b>****</b></p>
+                                <% } %>
+                                    <small class="text-muted">User</small>
+                    </div>
+                    <div class="profile-photo">
+                        <img src="./assets/dashimages/profile-1.jpg">
+                    </div>
+                </div>
+
+            </div>
+            <!-- End of Nav -->
+
+            <div class="user-profile">
+                <div class="logo">
+                    <img draggable="false" src="./assets/logo/cashify.jpg">
+                    <h2>Cashify Earn</h2>
+                    <p>Share More Earn More💸</p>
+                </div>
+            </div>
+
+            <div class="reminders">
+                <div class="header">
+                    <h2>Reminders</h2>
+                    <span class="material-icons-sharp">
+                        notifications_none
+                    </span>
+                </div>
+
+                <div class="notification">
+                    <div class="icon">
+                        <span class="material-icons-sharp">
+                            volume_up
+                        </span>
+                    </div>
+                    <div class="content">
+                        <div class="info">
+                            <h3>Workshop</h3>
+                            <small class="text_muted">
+                                08:00 AM - 12:00 PM
+                            </small>
+                        </div>
+                        <span class="material-icons-sharp">
+                            more_vert
+                        </span>
+                    </div>
+                </div>
+
+                <div class="notification deactive">
+                    <div class="icon">
+                        <span class="material-icons-sharp">
+                            edit
+                        </span>
+                    </div>
+                    <div class="content">
+                        <div class="info">
+                            <h3>Workshop</h3>
+                            <small class="text_muted">
+                                08:00 AM - 12:00 PM
+                            </small>
+                        </div>
+                        <span class="material-icons-sharp">
+                            more_vert
+                        </span>
+                    </div>
+                </div>
+
+                <div class="notification add-reminder">
+                    <div>
+                        <span class="material-icons-sharp">
+                            add
+                        </span>
+                        <h3>Add Reminder</h3>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <script>
+
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            //this is for validating that bonus is claimed or not 
+            const bonusElement = document.querySelector('.bonus');
+            const completedbonus = bonusElement.getAttribute('data-completedbonus') === 'true';
+            //this is end of validation 
+            const bonusImg = document.querySelector('.bonus-img');
+            const popup = document.getElementById('popup');
+            const closeBtn = document.querySelector('.close-btn');
+            const referralForm = document.getElementById('referral-form');
+            const referralInput = document.querySelector('.referral-input');
+            const successPopup = document.getElementById('successPopup');
+            const successCloseBtn = document.querySelector('.success-close-btn');
+            const successMessage = document.getElementById('successMessage');
+
+
+            bonusImg.addEventListener('click', () => {
+                popup.style.display = 'flex';
+            });
+
+            closeBtn.addEventListener('click', () => {
+                popup.style.display = 'none';
+            });
+
+            window.addEventListener('click', (event) => {
+                if (event.target === popup) {
+                    popup.style.display = 'none';
+                }
+
+            });
+
+            // Add an event listener to the close button to close the popup
+            successCloseBtn.addEventListener('click', () => {
+                successPopup.style.display = 'none';
+            });
+
+            document.querySelector('.close-btn').addEventListener('click', () => {
+                document.getElementById('popup').style.display = 'none';
+            });
+
+
+
+            //this is if the bonus is clamed 
+            if (completedbonus) {
+                const bonusImg = document.querySelector('.bonus-img');
+                bonusImg.style.display = 'none';
+
+            }
+
+
+            //this is for claming the bonus referal 
+            //this is if the  bonus is not clamed 
+            referralForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevent the form from submitting the traditional way
+                const input = referralInput.value;
+
+                fetch('/submit-referral', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ referralCode: input })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(errorData => {
+                                throw new Error(errorData.error);
+                            });
+                        }
+                        return response.json();
+                    })
+
+                    //handaling the responses comming from the server
+                    .then(data => {
+                        console.log('Success:', data);
+                        successMessage.textContent = data.message;
+                        successPopup.style.display = 'flex';
+                        referralInput.value = ''; // Clear input field
+                        setTimeout(() => {
+                            window.location.href = data.redirectUrl;
+                        }, 2000); // 2000 milliseconds = 2 seconds
+
+
+                    })
+                    //handaling the error comming from server
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        successMessage.textContent = error.message;
+                        successPopup.style.display = 'flex';
+                    });
+
+                popup.style.display = 'none';
+            });
+
+        });
+
+
+
+    </script>
+
+    <script src="/assets/js/dashboard.js"></script>
+
+
+    <!-- This is for icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

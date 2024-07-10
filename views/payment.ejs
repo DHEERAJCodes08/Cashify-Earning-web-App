@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cashify🚀 | Paynment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/paynment.css">
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            let name, number, email, paymenttype;  // Declare variables to store form values
+            const generateQrButton = document.querySelector(".generate_qr");
+            const confirmPaynment = document.querySelector(".download_now");
+            const form = document.querySelector(".form");
+            const qrCodeSection = document.querySelector(".qr_code");
+            const qrCodeImage = document.querySelector(".get_qr");
+
+            generateQrButton.addEventListener("click", function () {
+                name = document.querySelector(".name").value;
+                number = document.querySelector(".number").value;
+                email = document.querySelector(".email").value;
+                paymenttype = document.querySelector(".paymenttype").value;
+
+                if (name && number && email && paymenttype) {
+                    form.style.display = "none";
+                    qrCodeSection.style.display = "block";
+
+                    qrCodeImage.src = "./assets/logo/Qr.jpg";  // Replace with your actual QR code image path
+                } else {
+                    alert("Fill all fields correctly");
+                }
+            });
+
+            confirmPaynment.addEventListener("click", function () {
+                const utr = document.querySelector(".id").value;
+
+                if (utr.length >= 12 && utr.length <= 18) {
+                    fetch('/processPayment', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ name, number, email, paymenttype, utr })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                alert(data.error);  // UTR number already used
+                            } else {
+                                alert("Are you sure you completed the payment?");
+                                displayPopup();
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while processing the payment');
+                        });
+                } else {
+                    alert("UTR/REFERENCE/TRANSACTION ID is not valid");
+                }
+            });
+
+            function displayPopup() {
+                document.getElementById('popup').classList.remove('hidden');
+            }
+
+            // This is for hiding the popup
+            window.closePopup = function () {
+                document.getElementById('popup').classList.add('hidden');
+                document.getElementById('paymentForm').reset();
+            }
+        });
+    </script>
+
+</head>
+
+<body>
+    <section>
+        <h1>Payment Details</h1>
+        <div class="form" id="paymentForm">
+            <div class="flex m20">
+                <label>Full Name*</label>
+                <input type="text" name="name" placeholder="Full Name" class="m10 name">
+            </div>
+            <div class="flex m20">
+                <label>Whatsapp Number</label>
+                <input type="text" name="number" placeholder="Ex- xxx xxx xxxx" class="m10 number">
+            </div>
+            <div class="flex m20">
+                <label>Email*</label>
+                <input type="email" name="email" placeholder="Email" class="m10 email">
+            </div>
+            <div class="flex m20">
+                <label>Payment Type*</label>
+                <select name="paymenttype" class="paymenttype" required>
+                    <option value="adds">Ads</option>
+                    <option value="YouTubevideo">YouTube Video</option>
+                </select>
+            </div>
+            <div class="flex m20">
+                <button class="generate_qr donebtn">NEXT</button>
+            </div>
+        </div>
+        <div class="qr_code m20">
+            <p>Scan the QR Code with any UPI App and pay the amount.</p>
+            <br>
+            <center>
+                <h1> Pay <%=amount %>/-</h1>
+            </center>
+            <center><img src="" alt="QR CODE" class="get_qr m10"></center>
+            <center><img src="" class="im m10"></center>
+            <div class="flex m20">
+                <label>UTR/REFERENCE/TRANSACTION ID**</label>
+                <input type="text" name="id" id="transactionId" placeholder="UTR/REFERENCE/TRANSACTION ID**"
+                    class="m10 id" maxlength="16" required>
+            </div>
+            <button type="submit" class="download_now donebtn"> Confirm</button>
+        </div>
+
+        <div id="popup" class="popup hidden">
+            <div class="popup-content">
+                <div class="checkmark">
+                    <!-- <video src="./assets/logo/verified.gif"></video> -->
+                    <img src="./assets/logo/verified.gif" alt="">
+                </div>
+                <p id="amountText">Paynment Amount:<%=amount %>/- </p>
+                <p id="amountText">Success </p>
+                <p>Your Paynment will be Verified <ion-icon name="checkmark-circle-outline"
+                        style="color: green;"></ion-icon> and Adds will be Live Soon!</p>
+                <a class="donebtn" href="/selectpromote" onclick="closePopup()">Done</a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- this is to validate the correct utr  no -->
+</body>
+
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cashify💸 | Bankcard</title>
+  <link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <style>
+
+    body {
+      font-family: "Ubuntu", sans-serif;
+      font-weight: 500;
+      font-style: normal;
+      margin: 0;
+      padding: 0;
+      background-color: #f2f2f2;
+    }
+
+    
+
+    .Aname {
+      color: red;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #f2f2f2;
+      border-radius: 10px;
+    }
+
+    .top-bar {
+      background-color: #000e15;
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #00aaff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn i{
+      font-size: 15px;
+    }
+
+    .bankcard-container {
+      margin-top: 20px;
+    }
+
+    .delete-btn {
+      background-color: red;
+      color: #fff;
+    }
+
+    .edit-btn {
+      color: white;
+      background-color: rgb(0, 128, 255);
+    }
+
+    .bankcard {
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+      background-color: #ffffff;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .bankcard-options {
+      text-align: right;
+    }
+
+    .bankcard-options button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .popup,
+    .editpopup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .popup-content,
+    .editpopup-content {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .popup-content h2,
+    .editpopup-content h2 {
+      margin-top: 0;
+    }
+
+    .popup-content label,
+    .editpopup-content label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    .popup-content input,
+    .editpopup-content input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .popup-content .save-btn,
+    .editpopup-content .save-btn {
+      background-color: green;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .popup-content .close-btn,
+    .editpopup-content .close-btn {
+      background-color: #ccc;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    @media screen and (max-width: 768px) {
+      .container {
+        width: 90%;
+        padding: 0px 5px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="top-bar">
+    <img src="./assets/logo/logo.png" width="150" height="60" alt="Adex home" class="logo-light">
+    <button class="btn" id="addBtn"><i class='bx bx-credit-card' ></i> &nbsp;Add New</button>
+  </div>
+
+  <div class="container">
+    <div class="bankcard-container">
+      <% if (typeof addedBankcards !=='undefined' && addedBankcards.length> 0) { %>
+        <% addedBankcards.forEach(details=> { %>
+          <div class="bankcard" data-details='<%= JSON.stringify(details) %>' data-id='<%= details.userbank_id %>'>
+            <span class="Aname"> Name: <%= details.userbank_fullname %></span><br>
+            <span class="CardNo">Card No: <%= details.userbank_accountno %></span>
+            <div class="bankcard-options">
+              <button class="edit-btn"><ion-icon name="create"></ion-icon></button>
+              <button class="delete-btn"><ion-icon name="trash"></ion-icon></button>
+            </div>
+          </div>
+          <% }) %>
+            <% } else { %>
+              <p>No bankcards added yet 😓.</p>
+              <% } %>
+    </div>
+  </div>
+
+  <!-- Popup for adding new bankcard -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <h2>Add Bankcard</h2>
+      <form id="addBankcardForm">
+        <label for="accountHolder">Account Holder's Name</label>
+        <input type="text" id="accountHolder" required name="accountHolder">
+        <label for="bankName">Bank Name</label>
+        <input type="text"  id="bankName" name="bankName" required>
+        <label for="accountNumber">Account Number</label>
+        <input type="text" id="accountNumber" name="accountNumber" required>
+        <label for="ifscCode">IFSC Code</label>
+        <input type="text" id="ifscCode" name="ifscCode" required>
+        <label for="mobileNumber">Mobile Number</label>
+        <input type="text" id="mobileNumber" name="mobileNumber" required>
+        <button class="save-btn" type="submit" id="saveBtn">Save</button>
+        <button class="close-btn" type="button" id="closePopupBtn">Close</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Popup for editing existing bankcard -->
+  <div class="editpopup" id="editpopup">
+    <div class="editpopup-content">
+      <h2>Edit Bankcard</h2>
+      <form id="editBankcardForm" method="post">
+        <!-- Hidden input field to store the data-id -->
+        <input type="hidden" id="editBankcardId" name="editBankcardId">
+
+        <label for="editAccountHolder">Account Holder's Name</label>
+        <input type="text" id="editAccountHolder" name="editAccountHolder">
+        <label for="editBankName">Bank Name</label>
+        <input type="text" id="editBankName" name="editBankName">
+        <label for="editAccountNumber">Account Number</label>
+        <input type="text" id="editAccountNumber" name="editAccountNumber">
+        <label for="editIfscCode">IFSC Code</label>
+        <input type="text" id="editIfscCode" name="editIfscCode">
+        <label for="editMobileNumber">Mobile Number</label>
+        <input type="text" id="editMobileNumber" name="editMobileNumber">
+        <button class="save-btn" type="submit" id="editSaveBtn">Save</button>
+        <button class="close-btn" type="button" id="closeEditPopupBtn">Close</button>
+      </form>
+    </div>
+  </div>
+
+
+
+
+
+
+
+  <!-- Script Tags  -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var addBtn = document.getElementById('addBtn');
+      var popup = document.getElementById('popup');
+      var editpopup = document.getElementById('editpopup');
+      var closePopupBtn = document.getElementById('closePopupBtn');
+      var closeEditPopupBtn = document.getElementById('closeEditPopupBtn');
+
+      var accountHolder = document.getElementById('accountHolder');
+      var editBankcardId = document.getElementById('editBankcardId');
+      var bankName = document.getElementById('bankName');
+      var accountNumber = document.getElementById('accountNumber');
+      var ifscCode = document.getElementById('ifscCode');
+      var mobileNumber = document.getElementById('mobileNumber');
+
+      var editAccountHolder = document.getElementById('editAccountHolder');
+      var editBankName = document.getElementById('editBankName');
+      var editAccountNumber = document.getElementById('editAccountNumber');
+      var editIfscCode = document.getElementById('editIfscCode');
+      var editMobileNumber = document.getElementById('editMobileNumber');
+
+      // Show popup for adding new bankcard
+      addBtn.addEventListener('click', function () {
+        popup.style.display = 'flex';
+        accountHolder.value = '';
+        bankName.value = '';
+        accountNumber.value = '';
+        ifscCode.value = '';
+        mobileNumber.value = '';
+      });
+
+      // Close the add new bankcard popup
+      closePopupBtn.addEventListener('click', function () {
+        popup.style.display = 'none';
+      });
+
+      // Close the edit bankcard popup
+      closeEditPopupBtn.addEventListener('click', function () {
+        editpopup.style.display = 'none';
+      });
+
+      // Close the popup if the user clicks outside of it
+      window.addEventListener('click', function (event) {
+        if (event.target === popup) {
+          popup.style.display = 'none';
+        } else if (event.target === editpopup) {
+          editpopup.style.display = 'none';
+        }
+      });
+
+      // Get all delete buttons
+      var deleteButtons = document.querySelectorAll('.delete-btn');
+
+      // Add event listener to each delete button
+      deleteButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          // Get the parent bankcard element
+          var bankcard = this.closest('.bankcard');
+
+          // Remove the bankcard element
+          bankcard.remove();
+        });
+      });
+
+      // Pre-fill popup input fields with bank card details
+      document.querySelectorAll('.edit-btn').forEach(function (button) {
+        button.addEventListener('click', function () {
+
+          var bankcard = button.closest('.bankcard');
+          var details = JSON.parse(bankcard.getAttribute('data-details'));
+          editBankcardId.value = details.userbank_id;
+          editAccountHolder.value = details.userbank_fullname;
+          editBankName.value = details.userbank_bankname;
+          editAccountNumber.value = details.userbank_accountno;
+          editIfscCode.value = details.userbank_ifsc;
+          editMobileNumber.value = details.userbank_mobile;
+
+          editpopup.style.display = 'flex';
+        });
+      });
+
+
+      //for sending the update request of ther bankcard details
+      var editBankcardForm = document.getElementById('editBankcardForm');
+      editBankcardForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        var formData = new FormData(this);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/editbankcard');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            // If the request was successful
+            alert('Bankcard updated successfully');
+            window.location.reload(); // Reload the page
+          } else {
+            // If there was an error
+            console.error('Error updating bankcard:', xhr.statusText);
+          }
+        };
+        xhr.onerror = function () {
+          // If there was a connection error
+          console.error('Connection error');
+        };
+        xhr.send(JSON.stringify(Object.fromEntries(formData)));
+      });
+
+    });
+
+
+    //for sending the request for the deletion of the bankcard
+    // Get all delete buttons
+    var deleteButtons = document.querySelectorAll('.delete-btn');
+
+    // Add event listener to each delete button
+    deleteButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        // Get the parent bankcard element
+        var bankcard = this.closest('.bankcard');
+
+        // Get the bankcard ID
+        var bankcardId = bankcard.dataset.id;
+
+        // Send an AJAX request to delete the bankcard
+        fetch('/deletebankcard', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ bankcardId: bankcardId })
+        })
+          .then(response => {
+            if (response.ok) {
+              // If the deletion was successful, remove the bankcard element from the DOM
+              bankcard.remove();
+              alert('Bankcard updated successfully');
+              window.location.reload();
+            } else {
+              // If there was an error, log the error to the console
+              console.error('Error deleting bankcard');
+            }
+          })
+          .catch(error => {
+            // If there was a network error, log the error to the console
+            console.error('Network error:', error);
+          });
+      });
+    });
+
+
+
+    //This is for the Addition of the Bankcard 
+    var addBankcardForm = document.getElementById('addBankcardForm');
+    addBankcardForm.addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent default form submission
+
+      var formData = new FormData(this);
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/addBankcardForm');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          // If the request was successful
+          alert('Bankcard added successfully');
+          window.location.reload(); // Reload the page
+        } else {
+          // If there was an error
+          console.error('Error adding bankcard:', xhr.statusText);
+        }
+      };
+      xhr.onerror = function () {
+        // If there was a connection error
+        console.error('Connection error');
+      };
+      xhr.send(JSON.stringify(Object.fromEntries(formData)));
+    });
+
+
+  </script>
+
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>

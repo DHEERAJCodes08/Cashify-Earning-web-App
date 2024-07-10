@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Verification</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+  <link rel="stylesheet" href="./assets/css/videoVerificationCaptcha.css">
+
+</head>
+
+<body>
+  <div class="max-container">
+    <section class="Progressbar">
+      <h1>Watch , Subscribe and Comment</h1>
+      <div id="player"></div>
+      <!-- <button id="watch-on-youtube" class="popup-button">Watch on YouTube</button> -->
+      <div class="prog">
+        <div class="animation_bar1">
+          <span id="progress-bar"></span>
+        </div>
+        <h4>Keep Watching for Progress!</h4>
+      </div>
+    </section>
+    <div class="container">
+      <!-- Information -->
+      <div class="video-details">
+        <div class="feature">
+          <img src="./assets/images/feature.png" alt="">
+          <p>Get Instant ₹ 0.5 💸</p>
+        </div>
+        <div class="feature">
+          <img src="./assets/images/feature.png" alt="">
+          <p>Watch Complete Video💸</p>
+        </div>
+        <div class="feature">
+          <img src="./assets/images/feature.png" alt="">
+          <p>Subscribe 💸</p>
+        </div>
+      </div>
+
+      <!-- Captcha -->
+      <div class="captcha">
+        <header>Captcha Generator</header>
+        <div class="input_field captch_box">
+          <input type="text" value="" disabled />
+          <button class="refresh_button">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+        </div>
+        <div class="input_field captch_input">
+          <input type="text" placeholder="Enter captcha" />
+        </div>
+        <div class="message">Entered captcha is correct</div>
+        <div class="input_field button disabled">
+          <button>Submit Captcha</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Did you finish watching the video on YouTube?</p>
+      <button id="confirm-watched" class="popup-button">I have watched the video</button>
+    </div>
+  </div>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    // Modal functionality
+    var modal = document.getElementById("myModal");
+    var btn = document.getElementById("watch-on-youtube");
+    var span = document.getElementsByClassName("close")[0];
+
+
+    document.getElementById('confirm-watched').addEventListener('click', function () {
+      isVideoWatched = true;
+      showCaptcha();
+      modal.style.display = 'none';
+    });
+
+    let player;
+    let videoDuration;
+    let isVideoWatched = false;
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '360',
+        width: '640',
+        videoId: 'dlzXKwHOde0', // Replace with your actual YouTube video ID
+        playerVars: {
+          'controls': 0, // Disable video controls
+          'rel': 0,      // Disable related videos
+          'autoplay': 0  // Disable autoplay
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+      videoDuration = player.getDuration();
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data == YT.PlayerState.PLAYING) {
+        startProgressBar();
+      } else if (event.data == YT.PlayerState.ENDED) {
+        completeProgressBar();
+        if (isVideoWatched) {
+          showCaptcha();
+        }
+      }
+    }
+
+    function startProgressBar() {
+      const progressBar = document.getElementById('progress-bar');
+      let interval = setInterval(() => {
+        let currentTime = player.getCurrentTime();
+        let progress = (currentTime / videoDuration) * 100;
+        progressBar.style.width = progress + '%';
+
+        if (currentTime >= videoDuration || player.getPlayerState() !== YT.PlayerState.PLAYING) {
+          clearInterval(interval);
+          if (currentTime >= videoDuration) {
+            isVideoWatched = true;
+          }
+        }
+      }, 100);
+    }
+
+    function completeProgressBar() {
+      const progressBar = document.getElementById('progress-bar');
+      progressBar.style.width = '100%';
+      console.log("Completed");
+      modal.style.display = "flex";
+    }
+
+    function showCaptcha() {
+      const captchaContainer = document.querySelector('.captcha');
+      captchaContainer.style.display = 'block';
+    }
+  </script>
+
+  <script src="./assets/js/videoCaptchaVerification.js"></script>
+</body>
+
+</html>

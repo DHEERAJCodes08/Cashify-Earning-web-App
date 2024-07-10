@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games Dashboard</title>
+    <!-- CSS Link -->
+    <link rel="stylesheet" href="./assets/css/gamesdashboard.css">
+    <!-- Icon Links -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <div class="logo">
+                    <div class="logo_text">
+                        <h2>Cashify</h2>
+                        <p>Play Earn🌟</p>
+                    </div>
+                </div>
+                <div class="balance">
+                    <i class='bx bxs-wallet'></i>
+                    <span class="text">Balance:</span> <span> <%=balance[0].user_balance %></span>
+                </div>
+                <div class="top-bar-icons">
+                    <a href=""><i class='bx bx-credit-card'></i></a>
+                    <div class="profile-dropdown">
+                        <i class='bx bxs-user-circle'></i>
+                        <div class="dropdown-content">
+                            <a href="/dashboard">Profile</a>
+                            <a href="/withdraw">Withdraw</a>
+                            <a href="#">Support</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidenav">
+            <br>
+            <br>
+
+            <div class="search_bar">
+                <form action="#">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Search...">
+                </form>
+            </div>
+
+            <div class="icon_items">
+                <ul>
+                    <li class="navActive">
+                        <i class='bx bxs-dashboard'></i>
+                        <a href="#">Dashboard</a>
+                    </li>
+
+                    <li class="navActive">
+                        <i class='bx bxs-hot'></i>
+                        <a href="#">Trending</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bxs-bar-chart-alt-2'></i>
+                        <a href="#">Activity</a>
+                    </li>
+                    <!--                     <li class="navActive">
+                        <i class='bx bxs-shopping-bag'></i>
+                        <a href="#">Products</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bxs-bell'></i>
+                        <a href="#">Notification</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bxs-group'></i>
+                        <a href="#">Group</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bxs-user-rectangle'></i>
+                        <a href="#">Portfolio</a>
+                    </li> -->
+                    <li class="navActive">
+                        <i class='bx bxs-user-circle'></i>
+                        <a href="#">Profile</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bxs-cog'></i>
+                        <a href="#">Setting</a>
+                    </li>
+                    <li class="navActive">
+                        <i class='bx bx-log-in'></i>
+                        <a href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main content area -->
+        <div class="main-content">
+
+            <div class="game-section">
+                <h3 class="heading">All Games</h3>
+                <div class="game-cards">
+                    <a href="/dashboard" class="game-card">
+                        <img src="./assets/gamedashboardImages/Mines.png" alt="Mines">
+                        <div class="playing">
+                            <div class="online"></div> 12,937 playing
+                        </div>
+                    </a>
+                    <a href="/coingame" class="game-card">
+                        <img src="./assets/gamedashboardImages/CoinFlip.avif" alt="Mines">
+                        <div class="playing">
+                            <div class="online"></div> 2,937 playing
+                        </div>
+                    </a>
+
+
+                    <!-- More game cards can be added in a similar way -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bottom navigation bar for mobile -->
+    <div class="bottom-nav">
+        <ul>
+            <li class="navActive">
+                <a class="sendlink" id="active" href="/dashboard">
+                    <i class='bx bxs-dashboard' id="active"></i>
+                    Dashboard
+                </a>
+            </li>
+
+            <li class="navActive">
+                <a class="sendlink" href="/dashboard">
+                    <i class='bx bxs-hot'></i>
+                    Trending
+                </a>
+            </li>
+            <li class="navActive">
+                <a class="sendlink" href="/dashboard">
+                    <i class='bx bxs-bar-chart-alt-2'></i>
+                    Activity
+                </a>
+            </li>
+            <li class="navActive">
+                <a class="sendlink" href="/dashboard">
+                    <i class='bx bxs-user-circle'></i>
+                    Profile
+                </a>
+            </li>
+            <!--<li class="navActive">
+                <i class='bx bxs-cog'></i>
+                <span>Setting</span>
+            </li> -->
+        </ul>
+    </div>
+
+    <script src="./assets/js/gamesdashboard.js"></script>
+</body>
+
+</html>
